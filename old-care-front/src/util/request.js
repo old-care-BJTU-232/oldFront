@@ -2,9 +2,10 @@ import axios from 'axios';
 
 var instance = axios.create(
     {
-        baseURL: 'http://127.0.0.1:5000',
+        baseURL: 'http://49.232.157.63:8401',
+        // baseURL: 'http://127.0.0.1:8401',
         timeout:30000
-    }    
+    }
 );
 
 let get = async function(url,params){

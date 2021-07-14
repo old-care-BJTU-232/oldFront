@@ -15,7 +15,15 @@ const routes = [
     children:[
       {
         path:'/index/screen',
-        component:()=>import('@c/screen.vue')
+        component:()=>import('@c/screen/screen.vue')
+      },
+      {
+        path:'/index/screen2',
+        component:()=>import('@c/screen/screen2.vue')
+      },
+      {
+        path:'/index/screen3',
+        component:()=>import('@c/screen/screen3.vue')
       },
       {
         path:'/index/oldpeople',
@@ -30,8 +38,8 @@ const routes = [
         component:()=>import('@c/information/volunteer.vue')
       },
       {
-        path:'/index/emotion',
-        component:()=>import('@c/detection/emotion.vue')
+        path:'/index/event/:type',
+        component:()=>import('@c/detection/event.vue')
       },
     ]
   }

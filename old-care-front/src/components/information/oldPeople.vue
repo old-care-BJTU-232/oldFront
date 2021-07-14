@@ -4,12 +4,18 @@
       <el-breadcrumb-item :to="{ path: '/index' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>老人信息维护</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-button type="danger" icon="el-icon-delete" size="mini"  @click="openChart()"></el-button>
+    <div style="margin-bottom: 20px">
+      <el-button type="danger" icon="el-icon-plus" size="mini"  @click="addHandle()"></el-button>
+      <el-button type="primary" icon="el-icon-s-data" size="mini"  @click="openChart('age')">年龄统计</el-button>
+      <el-button type="primary" icon="el-icon-s-data" size="mini"  @click="openChart('gender')">性别统计</el-button>
+      <el-button type="primary" icon="el-icon-s-data" size="mini"  @click="openChart('healthState')">健康状况统计</el-button>
+    </div>
+
     <el-card class="box-card">
       <!-- 表格显示区域-->
       <el-table :data="tableData" style="width: 100%"  :default-sort = "{prop: 'state', order: 'descending'}">
 <!--        <el-table-column type="index"></el-table-column>-->
-        <el-table-column prop="ID" label="id" width="50"></el-table-column>
+        <el-table-column prop="id" label="id" width="50"></el-table-column>
         <el-table-column prop="username" label="姓名" width="80"></el-table-column>
         <el-table-column prop="gender" label="性别" width="50"></el-table-column>
         <el-table-column prop="phone" label="手机号" width="120"></el-table-column>
@@ -31,11 +37,110 @@
         </el-table-column>
       </el-table>
       <!--对话框区域-->
+      <el-dialog title="增加老人信息" :visible.sync="addDialogVisible" width="50%">
+        <div>
+          <el-form class="dialogInfo" label-position="left" label-width="70px" ref="formRef" :rules="rules" :model="addForm" >
+<!--            <el-form-item label="ID" prop="id" style="width: 150px">-->
+<!--              <el-input v-model="addForm.ID" disabled></el-input>-->
+<!--            </el-form-item>-->
+            <el-form-item label="姓名*" prop="username" style="width: 150px">
+              <el-input v-model="addForm.username" ></el-input>
+            </el-form-item>
+            <el-form-item label="性别*" prop="gender" style="width: 150px">
+              <el-input v-model="addForm.gender"></el-input>
+            </el-form-item>
+            <el-form-item label="房间号" prop="room_number" style="width: 150px">
+              <el-input v-model="addForm.room_number"></el-input>
+            </el-form-item>
+            <el-form-item label="电话*" prop="phone">
+              <el-input v-model="addForm.phone"></el-input>
+            </el-form-item>
+            <el-form-item label="身份证" prop="id_card">
+              <el-input v-model="addForm.id_card" ></el-input>
+            </el-form-item>
+            <el-form-item label="出生日期" prop="birthday">
+<!--              <el-date-picker-->
+<!--                      v-model="pointedForm.birthday"-->
+<!--                      align="right"-->
+<!--                      type="date"-->
+<!--                      placeholder="选择日期"-->
+<!--                      :picker-options="pickerOptions">-->
+<!--              </el-date-picker>-->
+              <el-input v-model="addForm.birthday" suffix-icon="el-icon-date"></el-input>
+            </el-form-item>
+            <el-form-item label="入院日期" prop="checkin_date">
+<!--              <el-date-picker-->
+<!--                      v-model="pointedForm.checkin_date"-->
+<!--                      align="right"-->
+<!--                      type="date"-->
+<!--                      placeholder="选择日期"-->
+<!--                      :picker-options="pickerOptions">-->
+<!--              </el-date-picker>-->
+              <el-input v-model="addForm.checkin_date" suffix-icon="el-icon-date"></el-input>
+            </el-form-item>
+            <el-form-item label="出院日期" prop="checkout_date">
+<!--              <el-date-picker-->
+<!--                      v-model="pointedForm.id_card"-->
+<!--                      align="right"-->
+<!--                      type="date"-->
+<!--                      placeholder="选择日期"-->
+<!--                      :picker-options="pickerOptions">-->
+<!--              </el-date-picker>-->
+              <el-input v-model="addForm.checkout_date" suffix-icon="el-icon-date"></el-input>
+            </el-form-item>
+            <el-form-item label="健康状况" prop="health_state">
+              <el-input v-model="addForm.health_state"></el-input>
+            </el-form-item>
+            <el-form-item label-width="120px" label="第一监护人姓名" prop="firstguardian_name">
+              <el-input v-model="addForm.firstguardian_name" ></el-input>
+            </el-form-item>
+            <el-form-item label-width="130px" label="与第一监护人关系" prop="firstguardian_relationship">
+              <el-input v-model="addForm.firstguardian_relationship" ></el-input>
+            </el-form-item>
+            <el-form-item label-width="120px" label="第一监护人电话" prop="firstguardian_phone">
+              <el-input v-model="addForm.firstguardian_phone" ></el-input>
+            </el-form-item>
+            <el-form-item label-width="120px" label="第一监护人微信" prop="firstguardian_wechat">
+              <el-input v-model="addForm.firstguardian_wecaht" ></el-input>
+            </el-form-item>
+            <el-form-item label-width="120px" label="第二监护人姓名" prop="secondguardian_name">
+              <el-input v-model="addForm.secondguardian_name" ></el-input>
+            </el-form-item>
+            <el-form-item label-width="130px" label="与第二监护人关系" prop="secondguardian_relationship">
+              <el-input v-model="addForm.secondguardian_relationship" ></el-input>
+            </el-form-item>
+            <el-form-item label-width="120px" label="第二监护人电话" prop="secondguardian_phone">
+              <el-input v-model="addForm.secondguardian_phone" ></el-input>
+            </el-form-item>
+            <el-form-item label-width="120px" label="第二监护人微信" prop="firstguardian_wechat">
+              <el-input v-model="addForm.secondguardian_wecaht" ></el-input>
+            </el-form-item>
+            <el-form-item label="简述" prop="DESCRIPTION">
+              <el-input type="textarea" v-model="addForm.DESCRIPTION" ></el-input>
+            </el-form-item>
+          </el-form>
+        </div>
+        <span slot="footer" class="dialog-footer">
+        <el-button @click="addDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addSubmit">确 定</el-button>
+        </span>
+      </el-dialog>
       <el-dialog title="修改老人信息" :visible.sync="modifyDialogVisible" width="50%">
         <div>
-          <el-form id="dialog1" label-position="left" label-width="70px" ref="formRef" :rules="rules" :model="pointedForm" >
-            <el-form-item label="ID" prop="id" style="width: 150px">
-              <el-input v-model="pointedForm.ID" disabled></el-input>
+          <el-form class="dialogInfo" label-position="left" label-width="70px" ref="formRef" :rules="rules" :model="pointedForm" >
+<!--            <el-form-item label="头像" prop="profile_photo" style="display: block;">-->
+<!--              <el-upload-->
+<!--                      class="avatar-uploader"-->
+<!--                      action="http://49.232.157.63:8400/upload"-->
+<!--                      :show-file-list="false"-->
+<!--                      :on-success="handleAvatarSuccess"-->
+<!--                      :before-upload="beforeAvatarUpload">-->
+<!--                <img v-if="pointedForm.profile_photo" :src="pointedForm.profile_photo" class="avatar">-->
+<!--                <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
+<!--              </el-upload>-->
+<!--            </el-form-item>-->
+            <el-form-item label="id" prop="id" style="width: 150px">
+              <el-input v-model="pointedForm.id" disabled></el-input>
             </el-form-item>
             <el-form-item label="姓名" prop="username" style="width: 150px">
               <el-input v-model="pointedForm.username"></el-input>
@@ -53,33 +158,33 @@
               <el-input v-model="pointedForm.id_card" ></el-input>
             </el-form-item>
             <el-form-item label="出生日期" prop="birthday">
-<!--              <el-date-picker-->
-<!--                      v-model="pointedForm.birthday"-->
-<!--                      align="right"-->
-<!--                      type="date"-->
-<!--                      placeholder="选择日期"-->
-<!--                      :picker-options="pickerOptions">-->
-<!--              </el-date-picker>-->
+              <!--              <el-date-picker-->
+              <!--                      v-model="pointedForm.birthday"-->
+              <!--                      align="right"-->
+              <!--                      type="date"-->
+              <!--                      placeholder="选择日期"-->
+              <!--                      :picker-options="pickerOptions">-->
+              <!--              </el-date-picker>-->
               <el-input v-model="pointedForm.birthday" suffix-icon="el-icon-date"></el-input>
             </el-form-item>
             <el-form-item label="入院日期" prop="checkin_date">
-<!--              <el-date-picker-->
-<!--                      v-model="pointedForm.checkin_date"-->
-<!--                      align="right"-->
-<!--                      type="date"-->
-<!--                      placeholder="选择日期"-->
-<!--                      :picker-options="pickerOptions">-->
-<!--              </el-date-picker>-->
+              <!--              <el-date-picker-->
+              <!--                      v-model="pointedForm.checkin_date"-->
+              <!--                      align="right"-->
+              <!--                      type="date"-->
+              <!--                      placeholder="选择日期"-->
+              <!--                      :picker-options="pickerOptions">-->
+              <!--              </el-date-picker>-->
               <el-input v-model="pointedForm.checkin_date" suffix-icon="el-icon-date"></el-input>
             </el-form-item>
             <el-form-item label="出院日期" prop="checkout_date">
-<!--              <el-date-picker-->
-<!--                      v-model="pointedForm.id_card"-->
-<!--                      align="right"-->
-<!--                      type="date"-->
-<!--                      placeholder="选择日期"-->
-<!--                      :picker-options="pickerOptions">-->
-<!--              </el-date-picker>-->
+              <!--              <el-date-picker-->
+              <!--                      v-model="pointedForm.id_card"-->
+              <!--                      align="right"-->
+              <!--                      type="date"-->
+              <!--                      placeholder="选择日期"-->
+              <!--                      :picker-options="pickerOptions">-->
+              <!--              </el-date-picker>-->
               <el-input v-model="pointedForm.id_card" suffix-icon="el-icon-date"></el-input>
             </el-form-item>
             <el-form-item label="健康状况" prop="health_state">
@@ -138,6 +243,7 @@
     name: '',
     data () {
       return {
+        addDialogVisible: false,
         modifyDialogVisible: false,
         deleteDialogVisible: false,
         echartDialogVisible: false,
@@ -178,6 +284,29 @@
           pdetail: '',
           reqNum: '0'
         },
+        addForm: {
+          // ID: 1,
+          username: '李四',
+          gender: '男',
+          phone: '17857242620',
+          id_card: '330523200001107817',
+          birthday: '2000-01-10',
+          // checkin_date: '2020-01-10',
+          // checkout_date: '2020-01-10',
+          // room_number: '232',
+          // health_state: 'good',
+          // imgset_dir: '',
+          // profile_photo: '',
+          // firstguardian_name: '1',
+          // firstguardian_relationship: '兄弟',
+          // firstguardian_phone: '1453515',
+          // firstguardian_wechat: 'xx',
+          // secondguardian_name: '2',
+          // secondguardian_relationship: '兄弟',
+          // secondguardian_phone: '1453515x',
+          // secondguardian_wechat: 'xx',
+          // DESCRIPTION:'XXXXX'
+        },
         rules: {
           // name: [
           //   { required: true, message: '请输入名字，该项为必填', trigger: 'blur' }
@@ -196,28 +325,112 @@
           ],
           pdetail: [
           ]
+        },
+        charts:{
+          totalnumber:'',
+          gender:{
+            '男':1,
+            '女':2
+          },
+          health_state: {
+            '健康':1,
+            '良好':1,
+            '一般':1,
+            '差':1,
+            '很差':1,
+          },
+          age: {
+            one:0,
+            two:0,
+            three:1,
+            four:2,
+            five:5,
+            six:0
+          }
+
         }
       }
     },
     methods: {
-      async modifySubmit () {
-        const result = await this.$http.post('home/petsInforGet/modify', this.pointedForm)
-        if (result.data.status === 200) {
-          this.$message.success(result.data.msg)
-        } else {
-          this.$message.error('修改失败')
+      async getAllInfo () {
+        const result = await this.$get('old/findAll')
+        if (result.success === true) {
+          console.log(result.data);
+          this.tableData=result.data;
+          this.tableData.forEach(item=>{
+            console.log(item.birthday != null);
+            if(item.birthday!=null){
+              item.birthday=item.birthday.substring(0,10);
+            }
+            if(item.checkin_date!=null){
+              item.checkin_date=item.checkin_date.substring(0,10);
+            }
+            if(item.checkout_date!=null){
+              item.checkout_date=item.checkout_date.substring(0,10);
+            }
+          })
+        } else if(result.success === false){
+          this.$message.error('获得老人信息失败')
+        } else{
+          this.$message.error('网络失联')
         }
-        this.modifyDialogVisible = false
+      },
+      async addSubmit () {
+        if(this.addForm.birthday === ''||this.addForm.username === '' ||this.addForm.id_card === ''){
+          this.$message.info('缺少必填项');
+          return;
+        }
+        const result = await this.$post('old/add', this.addForm)
+        if (result.success === true) {
+          this.$message.success('增加成功')
+          await this.getAllInfo()
+        } else if(result.success === false){
+          this.$message.error('增加失败')
+        } else{
+          this.$message.error('网络失联')
+        }
+        this.addDialogVisible = false
+      },
+      async modifySubmit () {
+        const result = await this.$post('old/update', this.pointedForm)
+        if (result.success === true) {
+          this.$message.success('修改成功')
+          this.modifyDialogVisible = false
+        } else if(result.success === false){
+          this.$message.error('修改失败')
+        } else{
+          this.$message.error('网络失联')
+        }
       },
       async deleteSubmit () {
-        const result = await this.$http.post('home/petsInforGet/delete', this.pointedForm)
-        console.log(result)
-        if (result.data.status === 200) {
-          this.$message.success(result.data.msg)
-        } else {
-          this.$message.error('删除失败')
+        const result = await this.$get('old/delete', {
+          id:this.pointedForm.id
+        })
+        if (result.success === true) {
+          this.$message.success(result.msg)
+          await this.getAllInfo()
+          this.deleteDialogVisible = false
+        } else if(result.success === false){
+          this.$message.error(result.msg)
+        } else{
+          this.$message.error('网络失联')
         }
-        this.deleteDialogVisible = false
+      },
+      async getChartNum () {
+        const result = await this.$get('old/number')
+        if (result.success === true) {
+          // console.log(result.data)
+          this.charts=result.data
+          console.log(this.charts)
+        } else if(result.success === false){
+          this.$message.error(result.msg)
+        } else{
+          this.$message.error('网络失联')
+        }
+      },
+      addHandle () {
+        // this.addForm = ''
+        this.addDialogVisible = true
       },
       modifyHandle (data) {
         this.modifyDialogVisible = true
@@ -234,66 +447,162 @@
         this.pointedForm = data
         this.deleteDialogVisible = true
       },
-      drawChart(){
+      drawGenderChart(){
+        let gender=this.charts.gender
         // 以下三步即可完成echarts的初始化使用,代码注释的详解别忘了看看
         const  myCharts = this.$echarts.init(this.$refs.myCharts);
+        myCharts.clear()
         let options = {
           title: {
-            text: '未来一周气温变化',   //图表顶部的标题
-            subtext: '纯属虚构'    //副标题
+            text: '老人性别信息统计分析',   //图表顶部的标题
+            subtext: '注册数据'    //副标题
           },
           tooltip: {   //鼠标悬浮框的提示文字
             trigger: 'axis'
           },
           legend: {
-            data:['最高气温','最低气温']
+            data:['性别分布']
           },
-          xAxis : [{  //x轴坐标数据
-            type : 'category',
-            boundaryGap : false,
-            data : ['周一','周二','周三','周四','周五','周六','周日']
-          }],
-          yAxis : [{   //y轴坐标数据
-            type : 'value',
-            axisLabel : {
-              formatter: '{value} °C'
-            }
-          }],
           series: [  //驱动图表生成的数据内容数组，几条折现，数组中就会有几个对应对象，来表示对应的折线
             {
-              name:"最高气温",
-              type: "line",  //pie->饼状图  line->折线图  bar->柱状图
-              data:[11, 11, 15, 13, 12, 13, 10],
-            },
-            {
-              name:"最低气温",
-              type: "line",  //pie->饼状图  line->折线图  bar->柱状图
-              data:[1, -2, 2, 5, 3, 2, 0],
+              name:"人数",
+              type: "pie",  //pie->饼状图  line->折线图  bar->柱状图
+              data:[
+                {
+                  value:gender.男,
+                  name:'男'
+                },
+                {
+                  value:gender.女,
+                  name:'女'
+                }
+              ],
+              itemStyle:{
+                normal:{
+                  label:{
+                    show: true,
+                    formatter: '{b} : {c} ({d}%)'
+                  },
+                  labelLine :{show:true}
+                }
+              }
             }
           ]}
         myCharts.setOption(options);
       },
-      openChart(){
+      drawAgeChart(){
+        let age=this.charts.age
+        // 以下三步即可完成echarts的初始化使用,代码注释的详解别忘了看看
+        const  myCharts = this.$echarts.init(this.$refs.myCharts);
+        myCharts.clear()
+        let options = {
+          title: {
+            text: '老人信息统计分析',   //图表顶部的标题
+            subtext: '注册数据'    //副标题
+          },
+          tooltip: {   //鼠标悬浮框的提示文字
+            trigger: 'axis'
+          },
+          legend: {
+            data:['年龄分布']
+          },
+          xAxis : [{  //x轴坐标数据
+            type : 'category',
+            boundaryGap : false,
+            data : ['50岁-59岁','60岁-69岁','70岁-79岁','80岁-89岁','90岁-99岁','100以上']
+          }],
+          yAxis : [{   //y轴坐标数据
+            type : 'value',
+            axisLabel : {
+              formatter:function (value) {
+                return value.toFixed(0)+' 人';
+              }
+              // formatter: '{value} 人'
+            }
+          }],
+          series: [  //驱动图表生成的数据内容数组，几条折现，数组中就会有几个对应对象，来表示对应的折线
+            {
+              name:"人数",
+              type: "line",  //pie->饼状图  line->折线图  bar->柱状图
+              data:[age.one,age.two,age.three,age.four,age.five,age.six],
+            }
+          ]}
+        myCharts.setOption(options);
+      },
+      drawHealthStateChart(){
+        let state=this.charts.health_state
+        // 以下三步即可完成echarts的初始化使用,代码注释的详解别忘了看看
+        const  myCharts = this.$echarts.init(this.$refs.myCharts);
+        myCharts.clear()
+        let options = {
+          title: {
+            text: '老人健康状态统计分析',   //图表顶部的标题
+            subtext: '注册数据'    //副标题
+          },
+          tooltip: {   //鼠标悬浮框的提示文字
+            trigger: 'axis'
+          },
+          legend: {
+            data:['健康状态']
+          },
+          xAxis : [{  //x轴坐标数据
+            type : 'category',
+            boundaryGap : false,
+            data : ['健康','良好','一般','差','很差']
+          }],
+          yAxis : [{   //y轴坐标数据
+            type : 'value',
+            axisLabel : {
+              formatter: '{value} 人'
+            }
+          }],
+          series: [  //驱动图表生成的数据内容数组，几条折现，数组中就会有几个对应对象，来表示对应的折线
+            {
+              name:"人数",
+              type: "line",  //pie->饼状图  line->折线图  bar->柱状图
+              data:[state.健康,state.良好,state.一般,state.差,state.很差],
+            }
+          ]}
+        myCharts.setOption(options);
+      },
+      openChart(type){
         this.echartDialogVisible = true;
+        // this.$refs.myCharts.html("");
         this.$nextTick(() => {
           //  执行echarts方法
-          this.drawChart()
-        })
-      }
+          if(type === 'age'){
+            this.drawAgeChart()
+          }
+          else if(type === 'gender'){
+            this.drawGenderChart()
+          }else if(type === 'healthState'){
+            this.drawHealthStateChart()
+          }
 
+        })
+      },
+      // 上传头像
+      handleAvatarSuccess(res, file) {
+        this.pointedForm.profile_photo = URL.createObjectURL(file.raw);
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
+      }
     },
     created () {
-      // this.$http.get('home/petsInforGet/' + window.sessionStorage.getItem('sid'))
-      //     .then(res => {
-      //       const data = res.data
-      //       console.log(data)
-      //       if (data.status === 200) {
-      //         this.tableData = data.pets
-      //       }
-      //     }, error => console.log(error))
+      this.getAllInfo();
     },
     mounted() {
-      this.drawChart()
+      this.getChartNum()
     }
   }
 </script>
@@ -306,8 +615,33 @@
   .el-card {
     box-shadow: 0 1px 1px rgba(0,0,0,0.15);
   }
-  #dialog1 .el-form-item {
+  .dialogInfo .el-form-item {
     display: inline-block;
     margin-right: 10px;
+  }
+
+  /*头像上传*/
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
   }
 </style>

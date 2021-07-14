@@ -23,7 +23,9 @@
                 <i class="el-icon-location"></i>
                 <span>视屏监控</span>
               </template>
-              <el-menu-item index="/index/screen">监控</el-menu-item>
+              <el-menu-item index="/index/screen">房间监控</el-menu-item>
+              <el-menu-item index="/index/screen2">走廊监控</el-menu-item>
+<!--              <el-menu-item index="/index/screen3">大门监控</el-menu-item>-->
             </el-submenu>
             <el-submenu index="2">
               <template slot="title">
@@ -39,24 +41,26 @@
                 <i class="el-icon-location"></i>
                 <span>事件记录</span>
               </template>
-              <el-menu-item index="/index/emotion">情感分析</el-menu-item>
-              <el-menu-item index="/index/falling">摔倒检测</el-menu-item>
-              <el-menu-item index="/index/forbiddenArea">禁止区域进入检测</el-menu-item>
-              <el-menu-item index="/index/stranger">陌生人检测</el-menu-item>
-              <el-menu-item index="/index/volunteerInteraction">义工互动检测</el-menu-item>
+              <el-menu-item index="/index/event/0">情感分析</el-menu-item>
+              <el-menu-item index="/index/event/1">义工互动检测</el-menu-item>
+              <el-menu-item index="/index/event/2">陌生人检测</el-menu-item>
+              <el-menu-item index="/index/event/3">摔倒检测</el-menu-item>
+              <el-menu-item index="/index/event/4">禁止区域进入检测</el-menu-item>
+
+
             </el-submenu>
-            <el-submenu index="4">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>统计报表</span>
-              </template>
-<!--              <el-menu-item-group>-->
-<!--                <template slot="title">分组一</template>-->
-<!--                <el-menu-item index="1-1">选项1</el-menu-item>-->
-<!--                <el-menu-item index="1-2">选项2</el-menu-item>-->
-<!--              </el-menu-item-group>-->
-              <el-menu-item index="1-1">统计报表</el-menu-item>
-            </el-submenu>
+<!--            <el-submenu index="4">-->
+<!--              <template slot="title">-->
+<!--                <i class="el-icon-location"></i>-->
+<!--                <span>统计报表</span>-->
+<!--              </template>-->
+<!--&lt;!&ndash;              <el-menu-item-group>&ndash;&gt;-->
+<!--&lt;!&ndash;                <template slot="title">分组一</template>&ndash;&gt;-->
+<!--&lt;!&ndash;                <el-menu-item index="1-1">选项1</el-menu-item>&ndash;&gt;-->
+<!--&lt;!&ndash;                <el-menu-item index="1-2">选项2</el-menu-item>&ndash;&gt;-->
+<!--&lt;!&ndash;              </el-menu-item-group>&ndash;&gt;-->
+<!--              <el-menu-item index="1-1">统计报表</el-menu-item>-->
+<!--            </el-submenu>-->
           </el-menu>
         </el-aside>
         <el-main>

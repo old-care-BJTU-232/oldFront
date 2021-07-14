@@ -5,6 +5,7 @@ module.exports = {
   devServer:{
     contentBase: path.join(__dirname,'public'),
     port:8000,
+    proxy: 'http://localhost:8401'
   },
   configureWebpack:{
     resolve:{
@@ -13,5 +14,5 @@ module.exports = {
         '@c': path.resolve(__dirname,'src/components'),
       }
     }
-  }
+  },
 }
