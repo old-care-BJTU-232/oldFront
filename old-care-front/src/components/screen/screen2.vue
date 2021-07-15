@@ -40,8 +40,13 @@
   }
   .button {
     display: inline-block;
-    color: #409EFF;
+    font-size: 12px;
+    color: #FFF;
+    background-color: #409EFF;
+    border: 1px solid #409EFF;
     cursor:pointer;
+    padding: 5px 12px;
+    border-radius: 3px;
   }
   .button :hover{
   }

@@ -61,6 +61,7 @@
           if (valid) {
             this.$post('/login',this.ruleForm).then(response => {
                 console.log(response);
+                sessionStorage.setItem('username',this.ruleForm.id)
                 if(response.success===true){
                     this.$router.push('/index');
                 }else {
